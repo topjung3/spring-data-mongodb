@@ -20,7 +20,6 @@ import static org.springframework.data.mongodb.core.query.SerializationUtils.*;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.NumberUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
@@ -112,6 +111,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.NumberUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
@@ -2209,6 +2209,24 @@ public class ReactiveMongoTemplate implements ReactiveMongoOperations, Applicati
 	@Override
 	public <T> ReactiveMapReduce<T> mapReduce(Class<T> domainType) {
 		return new ReactiveMapReduceOperationSupport(this).mapReduce(domainType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.data.mongodb.core.ReactiveChangeStreamOperation#changeStream()
+	 */
+	@Override
+	public ReactiveChangeStream<Document> changeStream() {
+		return new ReactiveChangeStreamOperationSupport(this).changeStream();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.data.mongodb.core.ReactiveChangeStreamOperation#changeStream(java.lang.Class)
+	 */
+	@Override
+	public <T> ReactiveChangeStream<T> changeStream(Class<T> domainType) {
+		return new ReactiveChangeStreamOperationSupport(this).changeStream(domainType);
 	}
 
 	/**
